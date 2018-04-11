@@ -43,6 +43,7 @@ Plugin 'derekwyatt/vim-fswitch' "用于在.cpp文件和对应的.h文件之间�
 Plugin 'derekwyatt/vim-protodef' "根据 .h文件生成.cpp里面的实现，该插件依赖vim-fswitch
 Plugin 'SirVer/ultisnips' " 模块自动补全插件 如 if--else--
 Plugin 'honza/vim-snippets' "ultisnips需要用到的各种模板（ultisnips没有自带的模板，下载后ultisnips自动识别）
+Plugin 'dyng/ctrlsf.vim'  "在工程中查找关键词的插件
 Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
@@ -362,6 +363,12 @@ nnoremap <leader>jt :YcmCompleter GetType<CR>
 nnoremap <leader>jp :YcmCompleter GetParent<CR>
 nnoremap <leader>jk :YcmCompleter GetDoc<CR>
 
+" CtrlSF 配置
+let g:ctrlsf_ackprg = '/home/zhangweiping/opt/ack/bin/ack'  " 设置 ack路径
+let g:ctrlsf_winsize = '30%'  " 设置ctrlsf窗口占当前串口的百分比
+nnoremap <leader>sp :CtrlSF<CR>
+nnoremap <F6> :CtrlSFToggle <CR>
+
 "====================插件config end========================================
 
 "====================一些快捷键 start======================================
@@ -371,6 +378,9 @@ nnoremap <leader>jk :YcmCompleter GetDoc<CR>
 
 "====================一些快捷键 start======================================
 
+" ack
+" 由于CtrlSF依赖于ack 所以需要先安装ack
+" 安装方法自行搜索，比较简单。安装后在上面设置ack的路径
 
 "设置 python 环境变量
 "PYTHONPATH=/home/zhangweiping/opt/anaconda2/lib/python2.7/site-packages:$PYTHONPATH
