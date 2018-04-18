@@ -44,6 +44,7 @@ Plugin 'derekwyatt/vim-protodef' "根据 .h文件生成.cpp里面的实现，该
 Plugin 'SirVer/ultisnips' " 模块自动补全插件 如 if--else--
 Plugin 'honza/vim-snippets' "ultisnips需要用到的各种模板（ultisnips没有自带的模板，下载后ultisnips自动识别）
 Plugin 'dyng/ctrlsf.vim'  "在工程中查找关键词的插件
+Plugin 'terryma/vim-multiple-cursors' " 光标多选功能
 Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
