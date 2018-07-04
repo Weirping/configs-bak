@@ -384,9 +384,9 @@ nnoremap <F6> :CtrlSFToggle <CR>
 " 安装方法自行搜索，比较简单。安装后在上面设置ack的路径
 
 "设置 python 环境变量
-"PYTHONPATH=/home/zhangweiping/opt/anaconda2/lib/python2.7/site-packages:$PYTHONPATH
+"PYTHONPATH=${HOME}/opt/anaconda2/lib/python2.7/site-packages:$PYTHONPATH
 "export PYTHONPATH
-"PYTHON_HOME=/home/zhangweiping/opt/anaconda2
+"PYTHON_HOME=${HOME}/opt/anaconda2
 "PATH=$PYTHON_HOME/bin:$PATH
 "export PATH
 "
