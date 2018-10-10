@@ -1,0 +1,266 @@
+格式转换
+VBoxManage clonehd i.vmdk out.vdi --format vdi
+======================================================================================================
+
+压缩vdi文件
+sudo dd if=/dev/zero of=/EMPTY bs=1M
+sudo rm -f /EMPTY
+VBoxManage modifymedium ML.vdi -compact
+
+======================================================================================================
+
+
+系统垃圾清理
+sudo apt-get clean
+sudo apt-get autoclean
+sudo apt-get autoremove
+======================================================================================================
+删除不用软件
+sudo apt-get remove --purge libreoffice*
+sudo apt-get remove --purge unity-webapps-common
+sudo apt-get remove --purge thunderbird rhythmbox simple-scan gnome-mahjongg aisleriot 
+sudo apt-get remove --purge gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku  landscape-client-ui-install  
+sudo apt-get remove --purge onboard
+
+======================================================================================================
+chrome
+sudo wget https://repo.fdzh.org/chrome/google-chrome.list -P /etc/apt/sources.list.d/
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub  | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install google-chrome-stable
+
+======================================================================================================
+jdk
+
+sudo mkdir /usr/lib/jvm
+sudo tar -zxvf jdk-7u80-linux-x64.gz -C /usr/lib/jvm
+
+#java
+export JAVA_HOME=/usr/lib/jvm/jdk1.7.0_80   
+export JRE_HOME=${JAVA_HOME}/jre  
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib  
+export PATH=${JAVA_HOME}/bin:$PATH
+
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/jdk1.7.0_80/bin/java 300  
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/jdk1.7.0_80/bin/javac 300  
+sudo update-alternatives --install /usr/bin/jar jar /usr/lib/jvm/jdk1.7.0_80/bin/jar 300   
+sudo update-alternatives --install /usr/bin/javah javah /usr/lib/jvm/jdk1.7.0_80/bin/javah 300   
+sudo update-alternatives --install /usr/bin/javap javap /usr/lib/jvm/jdk1.7.0_80/bin/javap 300  
+
+sudo update-alternatives --config java
+
+======================================================================================================
+# added by Anaconda3 installer
+export ANACONDA3_HOME=/opt/anaconda3
+export PATH=${ANACONDA3_HOME}/bin:$PATH
+export PYTHON_HOME=/opt/anaconda3
+export PATH=${PYTHON_HOME}/bin:$PATH
+
+anaconda 清华镜像
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --set show_channel_urls yes
+
+======================================================================================================
+#set maven environment
+M2_HOME=/opt/apache-maven-3.3.9
+export MAVEN_OPTS="-Xmx2g -Xmx512m -XX:ReservedCodeCacheSize=512m"
+export PATH=$M2_HOME/bin:$PATH
+
+======================================================================================================
+#protobuf
+export LD_LIBRARY_PATH=/opt/protobuf-2.5.0
+======================================================================================================
+openssh
+
+sudo apt-get install openssh-server
+
+sudo ps -e |grep ssh"-->回车-->有sshd,说明ssh服务已经启动，
+如果没有启动，输入"sudo service ssh start"-->回车-->ssh服务就会启动
+
+命令 ssh-keygen -t rsa 将会在~/.ssh下产生秘钥
+复制命令 cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+======================================================================================================
+hosts:
+127.0.0.1	weirping-ml
+
+hadoop namenode -format
+
+
+export HADOOP_HOME=/opt/hadoop-2.7.3
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export PATH=$HADOOP_HOME/bin:$PATH
+======================================================================================================
+export SCALA_HOME=/usr/lib/scala/scala-2.11.8
+export PATH=$SCALA_HOME/bin:$PATH
+
+======================================================================================================
+ibus
+
+安装语言包
+System Settings–>Language Support–>Install/Remove Languages
+选中chinese，点击Apply应用即可
+
+安装ibus框架
+sudo apt-get install ibus ibus-clutter ibus-gtk ibus-gtk3 ibus-qt4
+启动ibus框架：im-config
+
+安装拼音引擎
+我用的是IBus拼音：sudo apt-get install ibus-pinyin
+
+ubuntu16
+
+	安装语言包
+	System Settings–>Language Support–>Install/Remove Languages
+	选中chinese，点击Apply应用即可
+
+	安装ibus框架
+	sudo apt-get install ibus ibus-clutter ibus-gtk ibus-gtk3 ibus-qt4
+	启动ibus框架：im-config
+
+	安装拼音引擎
+	我用的是IBus拼音：sudo apt-get install ibus-pinyin
+
+	设置ibus框架
+	sudo ibus-setup
+	选中input method，Add刚才安装的中文拼音就行了
+	然后在 settings 的 Region & Language 的 Input Sources设置栏中
+
+	添加输入法
+	设置里边，选到Text Entry，点击左下角的加号，把自己要用的输入法添加进来
+ubuntu18
+
+	安装拼音引擎
+	我用的是IBus拼音：sudo apt-get install ibus-pinyin
+
+	点击 Manage Installed Language ，初次进入会安装些字体等相关信息。重启后使之生效。
+	点击 + 添加 Chinese(Intelligent Pinyin)。重启后使之生效。
+
+======================================================================================================
+# added by Anaconda3 installer
+export ANACONDA3_HOME=/opt/anaconda3
+export PATH=${ANACONDA3_HOME}/bin:$PATH
+export PYTHON_HOME=/opt/anaconda3
+export PATH=${PYTHON_HOME}/bin:$PATH
+
+anaconda 清华镜像
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --set show_channel_urls yes
+
+======================================================================================================
+
+
+notebook
+
+产生默认配置文件
+jupyter notebook --generate-config
+
+from IPython.lib import passwd
+passwd()
+
+## 修改文件：jupyter_notebook_config.py
+c.NotebookApp.notebook_dir = u'/home/weirping/Documents'
+c.NotebookApp.open_browser = False
+c.NotebookApp.password = u'sha1:。。。。。。。。。。。'
+c.NotebookApp.ip = '*'
+c.NotebookApp.port = 9999
+
+======================================================================================================
+notebook extensions
+
+https://github.com/ipython-contrib/jupyter_contrib_nbextensions
+
+=======================================================================================================
+python 2 和python3 同时使用
+
+# 创建一个名为python34的环境，指定Python版本是3.4（不用管是3.4.x，conda会为我们自动寻找3.4.x中的最新版本）
+conda create --name python34 python=3.4
+
+# To activate this environment, use:
+# > source activate python36
+#
+# To deactivate this environment, use:
+# > source deactivate python36 
+
+python --version
+# 可以得到`Python 3.4.5 :: Anaconda 4.1.1 (64-bit)`，即系统已经切换到了3.4的环境
+ 
+# 删除一个已有的环境
+conda remove --name python34 --all
+
+# 查看当前环境下已安装的包
+conda list
+ 
+# 查看某个指定环境的已安装包
+conda list -n python34
+ 
+# 查找package信息
+conda search numpy
+ 
+# 安装package
+conda install -n python34 numpy
+# 如果不用-n指定环境名称，则被安装在当前活跃环境
+# 也可以通过-c指定通过某个channel安装
+ 
+# 更新package
+conda update -n python34 numpy
+ 
+# 删除package
+conda remove -n python34 numpy
+
+=======================================================================================================
+
+
+python2 -m pip install ipykernel
+python2 -m ipykernel install --user
+
+python3 -m pip install ipykernel
+python3 -m ipykernel install --user
+
+=======================================================================================================
+编译安装vim
+
+查看是否安装python
+dpkg -l|grep vim
+卸载对应的包
+
+查看当前vim是否支持python
+vim --version | grep python
+
+git clone https://github.com/vim/vim.git
+
+安装依赖
+sudo apt-get install libncurses5-dev libgnome2-dev libgnomeui-dev \
+    libgtk2.0-dev libatk1.0-dev libbonoboui2-dev \
+    libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev \
+    python3-dev
+
+./configure --with-features=huge \
+            --enable-multibyte \
+            --enable-rubyinterp=yes \
+            --enable-python3interp=yes \
+            --with-python3-config-dir=/opt/anaconda3/lib/python3.6/config-3.6m-x86_64-linux-gnu \
+            --enable-perlinterp=yes \
+            --enable-luainterp=yes \
+            --enable-gui=gtk2 \
+            --enable-cscope \
+            --prefix=/opt/vim
+
+            # --enable-pythoninterp=yes \
+            # --with-python-config-dir=/opt/anaconda2/lib/python2.7/config \
+
+python2和python3不能共存
+
+make
+如果出现lto的错误可以在src Makefile中增加如下一行
+LDFLAGS = -fno-lto
+make install
+
+sudo update-alternatives --install /usr/bin/editor editor /opt/vim/bin/vim 1
+sudo update-alternatives --set editor /opt/vim/bin/vim
+sudo update-alternatives --install /usr/bin/vim vim /opt/vim/bin/vim 1
+sudo update-alternatives --set vim /opt/vim/bin/vim
+
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+
