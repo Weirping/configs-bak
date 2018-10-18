@@ -42,7 +42,7 @@ Plugin 'jiangmiao/auto-pairs'               "自动补全括号
 Plugin 'scrooloose/nerdcommenter'           "注释
 Plugin 'mbbill/undotree'                    "文件保存历史
 Plugin 'vim-scripts/TaskList.vim'           "TODOList
-Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'                  "用tab自动完成,此插件与ultisnips有冲突,需配置
 Plugin 'dyng/ctrlsf.vim'                    "在工程中查找关键词的插件
 Plugin 'terryma/vim-multiple-cursors'       " 光标多选功能
 Plugin 'easymotion/vim-easymotion'          "快速移动光标
@@ -277,7 +277,7 @@ let g:completor_auto_close_doc = 0              " 不自动关闭doc窗口
 let g:SuperTabDefaultCompletionType = "<C-N>"   "将tab键映射为completor.vim的自动完成
 "ultisnips 
 let g:UltiSnipsExpandTrigger = "<nop>"          "与supertab不兼容, 修改默认键 
-inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
+inoremap <expr> <CR> pumvisible() ? "\<c-y><C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"       "跳转到下一个placeholder                                 
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"    "上一个placeholder 
 "=============================智能补全 end================================================
