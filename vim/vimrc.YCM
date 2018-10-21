@@ -1,3 +1,11 @@
+"===============================================================
+"======================快捷键约定===============================
+"===============================================================
+" <leader>s     cursor move
+" <leader>t     toggle
+" <leader>f     files search. eg var word in files
+
+
 " You want Vim, not vi. When Vim finds a vimrc, 'nocompatible' is set anyway.
 set nocompatible              " required
 filetype off                  " required
@@ -23,7 +31,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
 Plugin 'tmhedberg/SimpylFold'               "用于代码折叠
-Plugin 'vim-airline/vim-airline'            " 在top显示buf 
+Plugin 'vim-airline/vim-airline'            " 在top显示buf
 Plugin 'vim-airline/vim-airline-themes'     "airline主题
 Plugin 'powerline/powerline'                "用于美化状态栏 默认被airline接管,不单独配置
 Plugin 'scrooloose/nerdtree'                "文件树形结构
@@ -42,7 +50,7 @@ Plugin 'jiangmiao/auto-pairs'               "自动补全括号
 Plugin 'scrooloose/nerdcommenter'           "注释
 Plugin 'mbbill/undotree'                    "文件保存历史
 Plugin 'vim-scripts/TaskList.vim'           "TODOList
-Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'                  "用tab自动完成,此插件与ultisnips有冲突,需配置
 Plugin 'dyng/ctrlsf.vim'                    "在工程中查找关键词的插件
 Plugin 'terryma/vim-multiple-cursors'       " 光标多选功能
 Plugin 'Valloric/YouCompleteMe'
@@ -92,7 +100,7 @@ set backspace =indent,eol,start         " Make backspace work as you would expec
 
 ">>>>>
 "indentLine
-"F1 缩进线开关 
+"F1 缩进线开关
 noremap <F1> :IndentLinesToggle<CR>
 let g:indentLine_char='┆'
 let g:indentLine_enabled = 1            "显示缩进线
@@ -110,7 +118,7 @@ nnoremap <space> za     "使用空格键折叠代码
 
 
 "====================配色方案 start======================================
-set t_Co=256            " 设置颜色深度, 终端支持256colors 
+set t_Co=256            " 设置颜色深度, 终端支持256colors
 set background=dark
 "colorscheme solarized
 colorscheme desert
@@ -195,7 +203,7 @@ set hlsearch                        "hlsearch 高亮显示搜索结果
 
 ">>>>>
 "incsearch
-"let g:incsearch#auto_nohlsearch = 1     "完成搜索时自动取消高亮
+let g:incsearch#auto_nohlsearch = 1     "完成搜索时自动取消高亮
 map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
 map *  <Plug>(incsearch-nohl-*)
@@ -252,7 +260,7 @@ let g:syntastic_enable_highlighting = 0         "关闭正文中的error, warnin
 
 "=============================代码格式化 start================================================
 "F7自动格式化代码并保存
-noremap <F7> :Autoformat<CR>:w<CR>              
+noremap <F7> :Autoformat<CR>:w<CR>
 "let g:autoformat_verbosemode=1                  " verbose mode 调试autoformat时用
 "python
 let g:formatters_python = ['yapf']              "定义用于python格式化的插件yapf, 各python env 需要手动安装 pip install yapf  # python自动格式化工具
@@ -290,11 +298,11 @@ nnoremap <leader>jk :YcmCompleter GetDoc<CR>
 
 "supertab
 "let g:SuperTabDefaultCompletionType = "<C-N>"   "将tab键映射为completor.vim的自动完成
-""ultisnips 
-let g:UltiSnipsExpandTrigger = "<nop>"          "与supertab不兼容, 修改默认键 
-inoremap <expr> <CR> pumvisible() ? "<C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"       "跳转到下一个placeholder                                 
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"    "上一个placeholder 
+"ultisnips
+let g:UltiSnipsExpandTrigger = "<nop>"          "与supertab不兼容, 修改默认键
+inoremap <expr> <CR> pumvisible() ? "\<c-y><C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"       "跳转到下一个placeholder
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"    "上一个placeholder
 "=============================智能补全 end================================================
 
 
@@ -342,21 +350,23 @@ map <F12> :TaskList<CR>
 
 " CtrlSF=====================
 let g:ctrlsf_winsize = '30%'  " 设置ctrlsf窗口占当前串口的百分比
-nnoremap <leader>sp :CtrlSF<CR>
+" find in project
+nnoremap <leader>fp :CtrlSF<CR>
 nnoremap <F6> :CtrlSFToggle <CR>
 
 "easymotion=================
-" <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
-" s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+let g:EasyMotion_do_mapping = 0         "关闭默认keymapping, 只使用自定义的
+" <Leader>sf{char} to move to {char}
+map  <Leader>sf <Plug>(easymotion-bd-f)
+nmap <Leader>sf <Plug>(easymotion-overwin-f)
+" <leader>ss{char}{char} to move to {char}{char}
+nmap <leader>ss <Plug>(easymotion-overwin-f2)
 " Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+map  <Leader>sw <Plug>(easymotion-bd-w)
+nmap <Leader>sw <Plug>(easymotion-overwin-w)
+" Move to line
+map <Leader>sl <Plug>(easymotion-bd-jk)
+nmap <Leader>sl <Plug>(easymotion-overwin-line)
 "=============================插件config start============================================
 
 
@@ -383,11 +393,11 @@ func! SetTitle()
         call append(line(".")+5, "\# =======================================================================")
     endif
     if &filetype == 'cpp'
-        call setline(1, "/*************************************************************************") 
-        call append(line("."), "    > File Name: ".expand("%")) 
-        call append(line(".")+1, "    > Author: Weiping") 
-        call append(line(".")+2, "    > Created Time: ".strftime("%c")) 
-        call append(line(".")+3, " ************************************************************************/") 
+        call setline(1, "/*************************************************************************")
+        call append(line("."), "    > File Name: ".expand("%"))
+        call append(line(".")+1, "    > Author: Weiping")
+        call append(line(".")+2, "    > Created Time: ".strftime("%c"))
+        call append(line(".")+3, " ************************************************************************/")
         call append(line(".")+4, "")
     endif
     autocmd BufNewFile * normal G
@@ -441,7 +451,7 @@ endfunc
 "====================一些快捷键 end======================================
 
 
-"======================依赖的外部软件 start===================================== 
+"======================依赖的外部软件 start=====================================
 "syntastic
 "pip install pep8 pyflakes  #python 语法检查工具
 

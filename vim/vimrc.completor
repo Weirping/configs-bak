@@ -1,3 +1,11 @@
+"===============================================================
+"======================快捷键约定===============================
+"===============================================================
+" <leader>s     cursor move
+" <leader>t     toggle
+" <leader>f     files search. eg var word in files
+
+
 " You want Vim, not vi. When Vim finds a vimrc, 'nocompatible' is set anyway.
 set nocompatible              " required
 filetype off                  " required
@@ -23,7 +31,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
 Plugin 'tmhedberg/SimpylFold'               "用于代码折叠
-Plugin 'vim-airline/vim-airline'            " 在top显示buf 
+Plugin 'vim-airline/vim-airline'            " 在top显示buf
 Plugin 'vim-airline/vim-airline-themes'     "airline主题
 Plugin 'powerline/powerline'                "用于美化状态栏 默认被airline接管,不单独配置
 Plugin 'scrooloose/nerdtree'                "文件树形结构
@@ -91,7 +99,7 @@ set backspace =indent,eol,start         " Make backspace work as you would expec
 
 ">>>>>
 "indentLine
-"F1 缩进线开关 
+"F1 缩进线开关
 noremap <F1> :IndentLinesToggle<CR>
 let g:indentLine_char='┆'
 let g:indentLine_enabled = 1            "显示缩进线
@@ -109,7 +117,7 @@ nnoremap <space> za     "使用空格键折叠代码
 
 
 "====================配色方案 start======================================
-set t_Co=256            " 设置颜色深度, 终端支持256colors 
+set t_Co=256            " 设置颜色深度, 终端支持256colors
 set background=dark
 "colorscheme solarized
 colorscheme desert
@@ -122,7 +130,8 @@ set number                          "显示行号
 "set cursorline                      "突出显示当前行
 "set cursorcolumn                    "突出显示当前列
 set ruler                           "总是显示光标当前位置
-set nowrap                          " 禁止折行
+"set nowrap                          " 禁止折行
+set wrap                            " 折行
 
 "标示不必要的空白字符
 highlight BadWhitespace ctermbg=239 guibg=darkred
@@ -177,7 +186,7 @@ nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
+nmap <leader>= <Plug>AirlineSelectNextTab
 
 " enable/disable syntastic integration
 let g:airline#extensions#syntastic#enabled = 1
@@ -189,7 +198,7 @@ set incsearch                       "在搜索时，逐字符高亮. Highlight w
 set ignorecase                      "ignore case 搜索时忽略大小写
 set hlsearch                        "hlsearch 高亮显示搜索结果
 " 修改Search结果的高亮配色方案
-hi Search ctermfg=230 ctermbg=33 guifg=#fdf6e3 guibg=#268bd2
+"hi Search ctermfg=230 ctermbg=33 guifg=#fdf6e3 guibg=#268bd2
 
 ">>>>>
 "incsearch
@@ -238,7 +247,7 @@ let python_highlight_all=1
 
 "=======================syntastic 语法检查 start============================================
 let g:syntastic_always_populate_loc_list = 1    "error window if error exist
-let g:syntastic_auto_loc_list = 1               "error window automatically opened when errors are detected, and closed when none are detected
+let g:syntastic_auto_loc_list = 0               "error window automatically opened when errors are detected, and closed when none are detected
 let g:syntastic_check_on_open = 1               "check when open and save
 let g:syntastic_check_on_wq = 0                 "disable checking before quit vim
 "let g:syntastic_python_checkers=['pep8', 'pyflakes']
@@ -250,7 +259,7 @@ let g:syntastic_enable_highlighting = 0         "关闭正文中的error, warnin
 
 "=============================代码格式化 start================================================
 "F7自动格式化代码并保存
-noremap <F7> :Autoformat<CR>:w<CR>              
+noremap <F7> :Autoformat<CR>:w<CR>
 "let g:autoformat_verbosemode=1                  " verbose mode 调试autoformat时用
 "python
 let g:formatters_python = ['yapf']              "定义用于python格式化的插件yapf, 各python env 需要手动安装 pip install yapf  # python自动格式化工具
@@ -275,11 +284,11 @@ let g:completor_auto_close_doc = 0              " 不自动关闭doc窗口
 
 "supertab
 let g:SuperTabDefaultCompletionType = "<C-N>"   "将tab键映射为completor.vim的自动完成
-"ultisnips 
-let g:UltiSnipsExpandTrigger = "<nop>"          "与supertab不兼容, 修改默认键 
+"ultisnips
+let g:UltiSnipsExpandTrigger = "<nop>"          "与supertab不兼容, 修改默认键
 inoremap <expr> <CR> pumvisible() ? "\<c-y><C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"       "跳转到下一个placeholder                                 
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"    "上一个placeholder 
+let g:UltiSnipsJumpForwardTrigger="<tab>"       "跳转到下一个placeholder
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"    "上一个placeholder
 "=============================智能补全 end================================================
 
 
@@ -327,21 +336,23 @@ map <F12> :TaskList<CR>
 
 " CtrlSF=====================
 let g:ctrlsf_winsize = '30%'  " 设置ctrlsf窗口占当前串口的百分比
-nnoremap <leader>sp :CtrlSF<CR>
+" find in project
+nnoremap <leader>fp :CtrlSF<CR>
 nnoremap <F6> :CtrlSFToggle <CR>
 
 "easymotion=================
-" <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
-" s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
-" Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+let g:EasyMotion_do_mapping = 0         "关闭默认keymapping, 只使用自定义的
+" <Leader>sf{char} to move to {char}
+map  <Leader>sf <Plug>(easymotion-bd-f)
+nmap <Leader>sf <Plug>(easymotion-overwin-f)
+" <leader>ss{char}{char} to move to {char}{char}
+nmap <leader>ss <Plug>(easymotion-overwin-f2)
 " Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+map  <Leader>sw <Plug>(easymotion-bd-w)
+nmap <Leader>sw <Plug>(easymotion-overwin-w)
+" Move to line
+map <Leader>sl <Plug>(easymotion-bd-jk)
+nmap <Leader>sl <Plug>(easymotion-overwin-line)
 "=============================插件config start============================================
 
 
@@ -368,11 +379,11 @@ func! SetTitle()
         call append(line(".")+5, "\# =======================================================================")
     endif
     if &filetype == 'cpp'
-        call setline(1, "/*************************************************************************") 
-        call append(line("."), "    > File Name: ".expand("%")) 
-        call append(line(".")+1, "    > Author: Weiping") 
-        call append(line(".")+2, "    > Created Time: ".strftime("%c")) 
-        call append(line(".")+3, " ************************************************************************/") 
+        call setline(1, "/*************************************************************************")
+        call append(line("."), "    > File Name: ".expand("%"))
+        call append(line(".")+1, "    > Author: Weiping")
+        call append(line(".")+2, "    > Created Time: ".strftime("%c"))
+        call append(line(".")+3, " ************************************************************************/")
         call append(line(".")+4, "")
     endif
     autocmd BufNewFile * normal G
@@ -426,7 +437,7 @@ endfunc
 "====================一些快捷键 end======================================
 
 
-"======================依赖的外部软件 start===================================== 
+"======================依赖的外部软件 start=====================================
 "syntastic
 "pip install pep8 pyflakes  #python 语法检查工具
 
