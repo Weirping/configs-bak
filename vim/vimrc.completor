@@ -78,6 +78,10 @@ set textwidth=110                   "限制以后文本的长度
 set report=0                        " 通过使用: commands命令，告诉我们文件的哪一行被改变过
 "====================常规配置项 end=====================================
 
+"====================key mapping start==================================
+" open .vimrc
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+"====================key mapping end==================================
 
 "====================encoding start==================================
 set fileformat=unix                 "设置以unix的格式保存文件
@@ -185,8 +189,8 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>= <Plug>AirlineSelectNextTab
+nmap <s-tab> <Plug>AirlineSelectPrevTab
+nmap <tab>  <Plug>AirlineSelectNextTab
 
 " enable/disable syntastic integration
 let g:airline#extensions#syntastic#enabled = 1
@@ -417,16 +421,6 @@ func! CompileRunFunc()
     endif
 endfunc
 "============================config end=============================================
-
-
-
-
-"supertab
-"将tab键映射为jedi-vim的自动完成
-"let g:SuperTabDefaultCompletionType = "<C-N>"
-
-
-
 
 
 "====================一些快捷键 start======================================
