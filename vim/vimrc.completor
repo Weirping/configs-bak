@@ -55,6 +55,7 @@ Plugin 'dyng/ctrlsf.vim'                    "在工程中查找关键词的插�
 Plugin 'terryma/vim-multiple-cursors'       " 光标多选功能
 Plugin 'easymotion/vim-easymotion'          "快速移动光标
 Plugin 'haya14busa/incsearch.vim'           "搜索功能增强
+Plugin 'tpope/vim-surround'                 "surroud
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -81,6 +82,7 @@ set report=0                        " 通过使用: commands命令，告诉我�
 "====================key mapping start==================================
 " open .vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>eb :vsplit %<cr>
 "====================key mapping end==================================
 
 "====================encoding start==================================
