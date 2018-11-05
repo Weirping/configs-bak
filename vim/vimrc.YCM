@@ -9,59 +9,43 @@
 " You want Vim, not vi. When Vim finds a vimrc, 'nocompatible' is set anyway.
 set nocompatible              " required
 filetype off                  " required
-"====================Vundle start=====================================
-":BundleList              -列举列表(也就是.vimrc)中配置的所有插件
-":BundleInstall          -安装列表中的全部插件
-":BundleInstall!         -更新列表中的全部插件
-":BundleSearch foo   -查找foo插件
-":BundleSearch! foo  -刷新foo插件缓存
-":BundleClean           -清除列表中没有的插件
+" Plug start==================
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" Specify a directory for plugins
+" Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+" Make sure you use single quotes
+" Plug 'tmhedberg/SimpylFold'               "用于代码折叠
+Plug 'vim-airline/vim-airline'            " 在top显示buf
+Plug 'vim-airline/vim-airline-themes'     "airline主题
+Plug 'scrooloose/nerdtree'                "文件树形结构
+Plug 'jistr/vim-nerdtree-tabs'            "
+Plug 'kien/ctrlp.vim'                     "超级搜索 按Ctrl+P就可以进行搜索
+Plug 'octol/vim-cpp-enhanced-highlight'   " C++ 语法高亮配色方案, 需要配置 syntax on
+Plug 'Yggdroot/indentLine'                "显示缩进线
+Plug 'vim-scripts/indentpython.vim'       "python 自动缩进插件,用于insert过程时自动缩进,需要配置 indent on
+Plug 'vim-syntastic/syntastic'            "语法检查框架, 其中包含了常用语言检查工具,少量语言需手动安装插件
+Plug 'Chiel92/vim-autoformat'             "代码格式化框架,依赖对应语言格式化插件
+"Plug 'maralla/completor.vim'              "代码智能补全框架
+Plug 'SirVer/ultisnips'                   "模块自动补全插件 如 if--else--, 集成到completor.vim
+"Plug 'honza/vim-snippets'                 "ultisnips需要用到的各种模板（ultisnips没有自带的模板，下载后ultisnips自动识别）
+Plug 'Weirping/vim-snippets'              "自己fork一份,方便定制
+Plug 'jiangmiao/auto-pairs'               "自动补全括号
+Plug 'scrooloose/nerdcommenter'           "注释
+Plug 'mbbill/undotree'                    "文件保存历史
+Plug 'vim-scripts/TaskList.vim'           "TODOList
+Plug 'ervandew/supertab'                  "用tab自动完成,此插件与ultisnips有冲突,需配置
+Plug 'dyng/ctrlsf.vim'                    "在工程中查找关键词的插件
+Plug 'terryma/vim-multiple-cursors'       " 光标多选功能
+Plug 'Valloric/YouCompleteMe'
+Plug 'easymotion/vim-easymotion'          "快速移动光标
+Plug 'haya14busa/incsearch.vim'           "搜索功能增强
+Plug 'tpope/vim-surround'                 "surroud
+Plug 'mhinz/vim-signify'                  "svn git 修改标记
 
-" set the runtime path to include Vundle and initialize
-" mkdir -p ~/.vim/bundle
-" git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-
-" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
-Plugin 'tmhedberg/SimpylFold'               "用于代码折叠
-Plugin 'vim-airline/vim-airline'            " 在top显示buf
-Plugin 'vim-airline/vim-airline-themes'     "airline主题
-Plugin 'powerline/powerline'                "用于美化状态栏 默认被airline接管,不单独配置
-Plugin 'scrooloose/nerdtree'                "文件树形结构
-Plugin 'jistr/vim-nerdtree-tabs'            "
-Plugin 'kien/ctrlp.vim'                     "超级搜索 按Ctrl+P就可以进行搜索
-Plugin 'octol/vim-cpp-enhanced-highlight'   " C++ 语法高亮配色方案, 需要配置 syntax on
-Plugin 'Yggdroot/indentLine'                "显示缩进线
-Plugin 'vim-scripts/indentpython.vim'       "python 自动缩进插件,用于insert过程时自动缩进,需要配置 indent on
-Plugin 'vim-syntastic/syntastic'            "语法检查框架, 其中包含了常用语言检查工具,少量语言需手动安装插件
-Plugin 'Chiel92/vim-autoformat'             "代码格式化框架,依赖对应语言格式化插件
-"Plugin 'maralla/completor.vim'              "代码智能补全框架
-Plugin 'SirVer/ultisnips'                   "模块自动补全插件 如 if--else--, 集成到completor.vim
-"Plugin 'honza/vim-snippets'                 "ultisnips需要用到的各种模板（ultisnips没有自带的模板，下载后ultisnips自动识别）
-Plugin 'Weirping/vim-snippets'              "自己fork一份,方便定制
-Plugin 'jiangmiao/auto-pairs'               "自动补全括号
-Plugin 'scrooloose/nerdcommenter'           "注释
-Plugin 'mbbill/undotree'                    "文件保存历史
-Plugin 'vim-scripts/TaskList.vim'           "TODOList
-Plugin 'ervandew/supertab'                  "用tab自动完成,此插件与ultisnips有冲突,需配置
-Plugin 'dyng/ctrlsf.vim'                    "在工程中查找关键词的插件
-Plugin 'terryma/vim-multiple-cursors'       " 光标多选功能
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'easymotion/vim-easymotion'          "快速移动光标
-Plugin 'haya14busa/incsearch.vim'           "搜索功能增强
-Plugin 'tpope/vim-surround'                 "surroud
-Plugin 'mhinz/vim-signify'                  "svn git 修改标记
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-"====================Vundle end========================================
+" Initialize plugin system
+call plug#end()
+" Plug end====================
 
 
 "====================文件类型检测 start================================
