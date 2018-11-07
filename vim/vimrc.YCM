@@ -105,7 +105,7 @@ set foldmethod=indent    " 根据缩进折叠代码
 "set foldmethod=syntax   " 根据语法折叠
 set foldlevel=99
 let g:SimpylFold_docstring_preview=1 "显示doc
-nnoremap <space> za     "使用空格键折叠代码
+"nnoremap <space> za     "使用空格键折叠代码
 "=================== code folding end==============================
 
 
