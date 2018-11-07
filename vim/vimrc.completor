@@ -27,6 +27,7 @@ Plug 'vim-scripts/indentpython.vim'       "python 自动缩进插件,用于inser
 Plug 'vim-syntastic/syntastic'            "语法检查框架, 其中包含了常用语言检查工具,少量语言需手动安装插件
 Plug 'Chiel92/vim-autoformat'             "代码格式化框架,依赖对应语言格式化插件
 Plug 'maralla/completor.vim'              "代码智能补全框架
+"Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'                   "模块自动补全插件 如 if--else--, 集成到completor.vim
 "Plug 'honza/vim-snippets'                 "ultisnips需要用到的各种模板（ultisnips没有自带的模板，下载后ultisnips自动识别）
 Plug 'Weirping/vim-snippets'              "自己fork一份,方便定制
@@ -37,7 +38,6 @@ Plug 'vim-scripts/TaskList.vim'           "TODOList
 Plug 'ervandew/supertab'                  "用tab自动完成,此插件与ultisnips有冲突,需配置
 Plug 'dyng/ctrlsf.vim'                    "在工程中查找关键词的插件
 Plug 'terryma/vim-multiple-cursors'       " 光标多选功能
-"Plug 'Valloric/YouCompleteMe'
 Plug 'easymotion/vim-easymotion'          "快速移动光标
 Plug 'haya14busa/incsearch.vim'           "搜索功能增强
 Plug 'tpope/vim-surround'                 "surroud
@@ -69,6 +69,7 @@ set report=0                        " 通过使用: commands命令，告诉我�
 " open .vimrc
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>eb :vsplit %<cr>
+nnoremap <leader>tn :set number!<cr>    " toggle number
 "====================key mapping end==================================
 
 "====================encoding start==================================
@@ -261,7 +262,7 @@ let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline
 "=============================代码格式化 end================================================
 
 
-"=============================智能补全 start================================================
+"智能补全 start==============
 "<C-n> next
 "<C-p> pre
 "<C-y> select
@@ -389,17 +390,6 @@ func! SetTitle()
         call append(line(".")+2, "    > Created Time: ".strftime("%c"))
         call append(line(".")+3, " ************************************************************************/")
         call append(line(".")+4, "")
-    endif
-endfunc
-
-
-"toggle between number and relativenumber
-function! ToggleNumber()
-    if(&relativenumber == 1)
-        set norelativenumber
-        set number
-    else
-        set relativenumber
     endif
 endfunc
 
