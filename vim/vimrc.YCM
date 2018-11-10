@@ -40,6 +40,7 @@ Plug 'terryma/vim-multiple-cursors'       " 光标多选功能
 Plug 'easymotion/vim-easymotion'          "快速移动光标
 Plug 'haya14busa/incsearch.vim'           "搜索功能增强
 Plug 'tpope/vim-surround'                 "surroud
+Plug 'junegunn/vim-easy-align'            "align
 Plug 'mhinz/vim-signify'                  "svn git 修改标记
 
 " Initialize plugin system
@@ -57,7 +58,7 @@ filetype indent on " 自动适应不同语言的智能缩进
 
 " 常规配置项 start============
 " 让配置变更立即生效
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
+" autocmd BufWritePost $MYVIMRC source $MYVIMRC
 let mapleader=';'                   " 快捷键 <leader>
 set noswapfile                      "无备份文件
 set textwidth=110                   "限制以后文本的长度
@@ -65,9 +66,14 @@ set report=0                        " 通过使用: commands命令，告诉我�
 " 常规配置项 end==============
 
 " key mapping start===========
-" open .vimrc
+" open => e
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>ehv :split $MYVIMRC<cr>
 nnoremap <leader>eb :vsplit %<cr>
+nnoremap <leader>ehb :split %<cr>
+nnoremap <leader>ee :vsplit ~/.bashrc<cr>
+nnoremap <leader>ehe :split ~/.bashrc<cr>
+" toggle => t
 nnoremap <leader>tn :set number!<cr>    " toggle number
 nnoremap <leader>tp :set paste!<cr>
 " key mapping end=============
@@ -358,6 +364,11 @@ nmap <Leader>sw <Plug>(easymotion-overwin-w)
 map <Leader>sl <Plug>(easymotion-bd-jk)
 nmap <Leader>sl <Plug>(easymotion-overwin-line)
 
+" vim-easy-align============
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)"
 
 " signify ===================
 let g:signify_vcs_list              = [ 'git', 'svn' ]
@@ -366,6 +377,7 @@ let g:signify_cursorhold_normal     = 1
 let g:signify_update_on_bufenter    = 0
 let g:signify_update_on_focusgained = 1
 " 插件config start============
+
 
 " function====================
 " 新建python文件 自动插入头文件
