@@ -9,7 +9,7 @@
 " You want Vim, not vi. When Vim finds a vimrc, 'nocompatible' is set anyway.
 set nocompatible              " required
 filetype off                  " required
-" Plug start==================
+" Plugs ---------------------- {{{
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 " Specify a directory for plugins
 " Avoid using standard Vim directory names like 'plugin'
@@ -45,27 +45,31 @@ Plug 'mhinz/vim-signify'                  "svn git 修改标记
 
 " Initialize plugin system
 call plug#end()
-" Plug end====================
+" }}}
 
 
-" 文件类型检测 start==========
+" filetype settings ---------------------- {{{
 " 文件类型侦测。允许基于不同语言加载不同插件（如，C++ 的语法高亮插件与 python 的不同）：
 filetype on "开启文件类型检查
 filetype plugin on " 开启插件支持
 filetype indent on " 自动适应不同语言的智能缩进
-" 文件类型检测 end============
+" }}} 
 
 
-" 常规配置项 start============
+" 常规配置项 settings ---------------------- {{{
 " 让配置变更立即生效
 " autocmd BufWritePost $MYVIMRC source $MYVIMRC
 let mapleader=';'                   " 快捷键 <leader>
 set noswapfile                      "无备份文件
-set textwidth=110                   "限制以后文本的长度
 set report=0                        " 通过使用: commands命令，告诉我们文件的哪一行被改变过
-" 常规配置项 end==============
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}} 
 
-" key mapping start===========
+
+" my key mapping settings ---------------------- {{{
 " open => e
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>ehv :split $MYVIMRC<cr>
@@ -76,16 +80,17 @@ nnoremap <leader>ehe :split ~/.bashrc<cr>
 " toggle => t
 nnoremap <leader>tn :set number!<cr>    " toggle number
 nnoremap <leader>tp :set paste!<cr>
-" key mapping end=============
+" }}}
 
-" encoding start==============
+
+" encoding settings ---------------------- {{{
 set fileformat=unix                 "设置以unix的格式保存文件
 set fileencoding=utf-8              "文件编码
 set encoding=utf-8                  "支持UTF-8编码
-" encoding end================
+" }}} 
 
 
-" tab indent start============
+" tab indent settings ---------------------- {{{
 " 代码缩进
 set smartindent                     " vim提供4种自动缩进类型indenttype。autoindent、smartindent、cindent、indentexpr,用于自动调节代码缩进
 set smarttab                        " 行首 insert时根据 'shiftwidth'.  'tabstop' or 'softtabstop' 使用空格插入tab，删除时根据shiftwidth删除tab
@@ -102,29 +107,39 @@ set backspace =indent,eol,start         " Make backspace work as you would expec
 noremap <F1> :IndentLinesToggle<CR>
 let g:indentLine_char='┆'
 let g:indentLine_enabled = 1            "显示缩进线
-" tab indent end==============
+" }}} 
 
 
-" code folding start==============================
+" folding settings ---------------------- {{{
 " 代码折叠（Code Folding)
 set foldmethod=indent    " 根据缩进折叠代码
 " set foldmethod=syntax   " 根据语法折叠
 set foldlevel=99
-let g:SimpylFold_docstring_preview=1 "显示doc
 " nnoremap <space> za     "使用空格键折叠代码
-" code folding end============
+" zM		Close all folds
+" zR		Open all folds
+" }}}
 
 
-" 配色方案 start==============
+" colorscheme settings ---------------------- {{{
 set t_Co=256            " 设置颜色深度, 终端支持256colors
 set background=dark
 " colorscheme solarized
 colorscheme desert
-" 配色方案 end================
+" }}}
 
  
-" 编辑区显示设置 start========
+" syntax highlight settings ---------------------- {{{
+" 语法高亮 以下两行代码要在靠前的位置，后面所有关于颜色的配置都需要在这两行之后
+syntax enable                   "开启代码高亮功能
+syntax on                       "允许用指定的语法高亮配色方案代替默认方案,如python,cpp文件使用不同的方案
+let python_highlight_all=1
+" }}} 
+
+
+" edit scope settings ---------------------- {{{
 set number                          "显示行号
+set textwidth=110                   "限制以后文本的长度
 " set relativenumber number           "显示相对行号
 " set cursorline                      "突出显示当前行
 " set cursorcolumn                    "突出显示当前列
@@ -135,13 +150,13 @@ set nowrap                          " 禁止折行
 " 标示不必要的空白字符
 highlight BadWhitespace ctermbg=239 guibg=darkred
 auto BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-" 编辑区显示设置 end==========
+" }}}
 
 
-" 状态栏 airline start========
+" status-line airline settings ---------------------- {{{
 " status line
 set laststatus=2                    " 总是显示状态栏
-set showmode                        "显示当前的模式
+set showmode                        " 显示当前的模式
 
 " buf
 set hidden                                  " Switch between buffers without having to save first.
@@ -187,12 +202,12 @@ nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <s-tab> <Plug>AirlineSelectPrevTab
 nmap <tab>  <Plug>AirlineSelectNextTab
 
-" enable/disable syntastic integration
+" enable syntastic integration
 let g:airline#extensions#syntastic#enabled = 1
-" 状态栏 airline end==========
+" }}}
 
 
-" search start================
+" search, easymotion settings ---------------------- {{{
 set incsearch                       "在搜索时，逐字符高亮. Highlight while searching with / or ?.
 set ignorecase                      "ignore case 搜索时忽略大小写
 set hlsearch                        "hlsearch 高亮显示搜索结果
@@ -208,18 +223,32 @@ map *  <Plug>(incsearch-nohl-*)
 map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
-" search end==================
+
+" easymotion
+let g:EasyMotion_do_mapping = 0         "关闭默认keymapping, 只使用自定义的
+" <Leader>sf{char} to move to {char}
+map  <Leader>sf <Plug>(easymotion-bd-f)
+nmap <Leader>sf <Plug>(easymotion-overwin-f)
+" <leader>ss{char}{char} to move to {char}{char}
+nmap <leader>ss <Plug>(easymotion-overwin-f2)
+" Move to word
+map  <Leader>sw <Plug>(easymotion-bd-w)
+nmap <Leader>sw <Plug>(easymotion-overwin-w)
+" Move to line
+map  <Leader>sl <Plug>(easymotion-bd-jk)
+nmap <Leader>sl <Plug>(easymotion-overwin-line)
+" }}}
 
 
-" cmd line start==============
+" cmd line settings ---------------------- {{{
 " Command Mode下输入 : 进入末行模式Last line Mode
 set display=lastline                " Show as much as possible of the last line.
 set wildmenu                        " visual autocomplete for command menu
 set showcmd                         " 输入的命令显示出来，看的清楚些
-" cmd line end================
+" }}}
 
 
-" 窗口 start =================
+" window start ---------------------------- {{{
 " 窗口分割位置
 set splitbelow
 set splitright
@@ -233,18 +262,11 @@ nmap z- :resize -5<CR>
 nmap z= :resize +5<CR>
 nmap z, :vertical resize -5<CR>
 nmap z. :vertical resize +5<CR>
-" 窗口 start =================
+" }}}
 
 
-" 语法高亮 start==============
-" 语法高亮 以下两行代码要在靠前的位置，后面所有关于颜色的配置都需要在这两行之后
-syntax enable                   "开启代码高亮功能
-syntax on                       "允许用指定的语法高亮配色方案代替默认方案,如python,cpp文件使用不同的方案
-let python_highlight_all=1
-" 语法高亮 start==============
-
-
-" syntastic 语法检查 start====
+" syntastic settings ---------------------- {{{
+" 语法检查 
 let g:syntastic_always_populate_loc_list = 1    "error window if error exist
 let g:syntastic_auto_loc_list = 0               "error window automatically opened when errors are detected, and closed when none are detected
 let g:syntastic_check_on_open = 1               "check when open and save
@@ -253,10 +275,10 @@ let g:syntastic_check_on_wq = 0                 "disable checking before quit vi
 let g:syntastic_python_checkers=['pep8']
 let g:syntastic_python_pep8_args='--ignore=E501,E116'
 let g:syntastic_enable_highlighting = 0         "关闭正文中的error, warning高亮
-" syntastic 语法检查 end======
+" }}}
 
 
-" 代码格式化 start============
+" autoformat settings ---------------------- {{{
 " F7自动格式化代码并保存
 noremap <F7> :Autoformat<CR>:w<CR>
 " let g:autoformat_verbosemode=1                  " verbose mode 调试autoformat时用
@@ -265,11 +287,10 @@ let g:formatters_python = ['yapf']              "定义用于python格式化的�
 let g:formatter_yapf_style = 'pep8'             "yapf使用pep8风格格式化python代码
 " cpp clangformat
 let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" -style=\"{BasedOnStyle: google, AccessModifierOffset: -2, '.(&textwidth ? 'ColumnLimit: '.&textwidth.', ' : '').(&expandtab ? 'UseTab: Never, IndentWidth: '.shiftwidth() : 'UseTab: Always').'}\"'"
-" 代码格式化 end==============
+" }}}
 
-" >>>>>
 
-" completor
+" completer settings ---------------------- {{{
 let g:completor_min_chars = 1                   " 输入一个字符即开始智能提示
 let g:completor_doc_position = 'bottom'         " 在窗口底部小时文档
 let g:completor_auto_close_doc = 0              " 不自动关闭doc窗口
@@ -281,23 +302,23 @@ let g:UltiSnipsExpandTrigger = "<nop>"          "与supertab不兼容, 修改默
 inoremap <expr> <CR> pumvisible() ? "\<c-y><C-R>=UltiSnips#ExpandSnippetOrJump()<CR>" : "\<CR>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"       "跳转到下一个placeholder
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"    "上一个placeholder
-" 智能补全 end================
+" }}}
 
 
-" nerdcommenter start ========
+" nerdcommenter settings -------------------- {{{
 " 多行注释只需要在normal模式下按v并移动光标选择需要注释的行
 " <leader>ci  "toggle comment
-" nerdcommenter start ========
+" }}}
 
 
-" 插件config start============
+" plugin config settings ---------------------- {{{
 " CtrlP settings
 let g:ctrlp_match_window = 'bottom,order:ttb'   "order matching files top to bottom
 let g:ctrlp_switch_buffer = 0                   "always open files in new buffer
 let g:ctrlp_working_path_mode = 0
 
 
-" NERDTree====================
+" NERDTree
 " F2开启和关闭树"
 map <F2> :NERDTreeToggle<CR>
 let NERDTreeChDirMode=1
@@ -308,7 +329,7 @@ let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
 " 窗口大小"
 let NERDTreeWinSize=25
 
-" gundo=======================
+" gundo
 " j/k   上下选择
 " p     查看diff
 " 回车  回滚文件到这个时刻的版本
@@ -318,53 +339,40 @@ let g:undotree_WindowLayout="Style 1"
 " 打开文件是默认同时打开undotree
 " auto BufRead,BufNewFile * UndotreeToggle
 
-" TaskList====================
+" TaskList
 let g:tlTokenList = ["FIXME", "TODO", "WARN"]
 let g:tlWindowPosition = 1
 let g:tlRememberPosition = 1
 map <F12> :TaskList<CR>
 
-" CtrlSF=====================
+" CtrlSF
 let g:ctrlsf_winsize = '30%'  " 设置ctrlsf窗口占当前串口的百分比
 " find in project
 nnoremap <leader>fp :CtrlSF<CR>
 nnoremap <F6> :CtrlSFToggle <CR>
 
-" easymotion=================
-let g:EasyMotion_do_mapping = 0         "关闭默认keymapping, 只使用自定义的
-" <Leader>sf{char} to move to {char}
-map  <Leader>sf <Plug>(easymotion-bd-f)
-nmap <Leader>sf <Plug>(easymotion-overwin-f)
-" <leader>ss{char}{char} to move to {char}{char}
-nmap <leader>ss <Plug>(easymotion-overwin-f2)
-" Move to word
-map  <Leader>sw <Plug>(easymotion-bd-w)
-nmap <Leader>sw <Plug>(easymotion-overwin-w)
-" Move to line
-map <Leader>sl <Plug>(easymotion-bd-jk)
-nmap <Leader>sl <Plug>(easymotion-overwin-line)
 
-" vim-easy-align============
+" vim-easy-align
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)"
 
-" signify ===================
+" signify
 let g:signify_vcs_list              = [ 'git', 'svn' ]
-let g:signify_cursorhold_insert     = 1
-let g:signify_cursorhold_normal     = 1
+let g:signify_cursorhold_insert     = 0
+let g:signify_cursorhold_normal     = 0
 let g:signify_update_on_bufenter    = 0
-let g:signify_update_on_focusgained = 1
-" 插件config start============
+let g:signify_update_on_focusgained = 0
+" }}}
 
 
-" function====================
+" function ----------------------------- {{{
 " 新建python文件 自动插入头文件
 augroup file_create
     autocmd!
-    autocmd BufNewFile * exec ":call SetTitle()" 
-    autocmd BufNewFile * :normal G
+    autocmd BufNewFile * execute ":call SetTitle()" 
+    autocmd BufNewFile * :normal! G
 augroup end
 func! SetTitle()
     if &filetype == 'sh'
@@ -411,17 +419,17 @@ func! CompileRunFunc()
         exec "!time bash %"
     endif
 endfunc
-" config end==================
+" }}}
 
-" 一些快捷键 start============
+
+" 一些快捷键 settings ---------------------- {{{
 " <C-O> 返回上一个（停留过）位置
 " <C-T> 返回上一个（停留过）tag
 " <C-i> 调到下一个（停留过）位置
+" }}}
 
-" 一些快捷键 end==============
 
-
-" 依赖的外部软件 start========
+" dependency settings ---------------------- {{{
 " syntastic
 " pip install pep8 pyflakes  #python 语法检查工具
 
@@ -436,3 +444,4 @@ endfunc
 " 由于CtrlSF依赖于ack 所以需要先安装ack
 " mkdir ~/bin
 " curl https://beyondgrep.com/ack-2.22-single-file > ~/bin/ack && chmod 0755 ~/bin/ack
+" }}}
