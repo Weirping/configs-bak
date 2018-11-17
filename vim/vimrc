@@ -390,7 +390,7 @@ let g:signify_update_on_bufenter    = 0
 let g:signify_update_on_focusgained = 0
 
 " asyncrun
-noremap <F5> :AsyncRun python "%" <cr> 
+noremap <F5> :copen<cr><C-W><C-K>:AsyncRun -raw python % <cr>
 
 " }}}
 
