@@ -389,9 +389,12 @@ let g:signify_cursorhold_normal     = 0
 let g:signify_update_on_bufenter    = 0
 let g:signify_update_on_focusgained = 0
 
-" asyncrun
-noremap <F5> :copen<cr><C-W><C-K>:AsyncRun -raw python % <cr>
 
+
+augroup run_file
+    autocmd FileType python nnoremap <F5>: copen<cr><C-W><C-K>:AsyncRun -raw python % <cr>
+    autocmd FileType cpp    nnoremap <F5>: copen<cr><C-W><C-K>:AsyncRun gcc % -o %< <CR>:AsyncRun g++ -O3 "%" -o "%<"<CR>
+augroup end
 " }}}
 
 
@@ -430,23 +433,6 @@ func! SetTitle()
         call append(line(".")+4, "")
     endif
 endfunc
-
-" 按F5运行python"
-"map <F5> :call CompileRunFunc()<CR>
-"func! CompileRunFunc()
-    "exec "w"
-    "if &filetype == 'python'
-        "exec "!time python %"
-    "elseif &filetype == 'c'
-        "exec "!g++ % -o %<"
-        "exec "!time ./%<"
-    "elseif &filetype == 'cpp'
-        "exec "!g++ % -o %<"
-        "exec "!time ./%<"
-    "elseif &filetype == 'sh'
-        "exec "!time bash %"
-    "endif
-"endfunc
 " }}}
 
 
