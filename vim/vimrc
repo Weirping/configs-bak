@@ -2,8 +2,21 @@
 " ======================快捷键约定===============================
 " ===============================================================
 " <leader>s     cursor move
+"
 " <leader>t     toggle
+" <leader>tn    toggle number
+" <leader>tp    toggle paste
+" <leader>tq    close quickfix
+"
 " <leader>f     files search. eg var word in files
+"
+" <leader>e     edit
+" ev            edit vimrc in vertical split
+" ehv           edit vimrc in hist split
+" eb            edit current file in vertical split
+" ehb           edit current file in hist split
+" ee            edit bashrc in vertical split
+" ehe           edit bashrc file in hist split
 
 
 " You want Vim, not vi. When Vim finds a vimrc, 'nocompatible' is set anyway.
@@ -20,9 +33,9 @@ Plug 'vim-airline/vim-airline-themes'                    " airline主题
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}     " 文件树形结构
 Plug 'jistr/vim-nerdtree-tabs', {'on': 'NERDTreeToggle'} " nerdtree 调用
 Plug 'kien/ctrlp.vim'                                    " 超级搜索 按Ctrl+P就可以进行搜索
-Plug 'octol/vim-cpp-enhanced-highlight'                  " C++ 语法高亮配色方案, 需要配置 syntax on
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}  " C++ 语法高亮配色方案, 需要配置 syntax on
 Plug 'Yggdroot/indentLine'                               " 显示缩进线
-Plug 'vim-scripts/indentpython.vim'                      " python 自动缩进插件,用于insert过程时自动缩进,需要配置 indent on
+Plug 'vim-scripts/indentpython.vim', {'for': 'python'}   " python 自动缩进插件,用于insert过程时自动缩进,需要配置 indent on
 Plug 'vim-syntastic/syntastic'                           " 语法检查框架, 其中包含了常用语言检查工具,少量语言需手动安装插件
 Plug 'Chiel92/vim-autoformat'                            " 代码格式化框架,依赖对应语言格式化插件
 Plug 'maralla/completor.vim'                             " 代码智能补全框架
@@ -66,6 +79,7 @@ set report=0                        " 通过使用: commands命令，告诉我�
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
+    autocmd FileType qf setlocal wrap
 augroup END
 " }}} 
 
@@ -274,7 +288,7 @@ let g:syntastic_check_on_open = 1               "check when open and save
 let g:syntastic_check_on_wq = 0                 "disable checking before quit vim
 " let g:syntastic_python_checkers=['pep8', 'pyflakes']
 let g:syntastic_python_checkers=['pep8']
-let g:syntastic_python_pep8_args='--ignore=E501,E116'
+let g:syntastic_python_pep8_args='--ignore=E501,E116,E127'
 let g:syntastic_enable_highlighting = 0         "关闭正文中的error, warning高亮
 " }}}
 
@@ -293,7 +307,7 @@ let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline
 " completer settings ---------------------------- {{{
 "completor 配置
 let g:completor_min_chars = 1                   " 输入一个字符即开始智能提示
-let g:completor_doc_position = 'bottom'         " 在窗口底部小时文档
+let g:completor_doc_position = 'bottom'         " 在窗口底部显示文档
 let g:completor_auto_close_doc = 0              " 不自动关闭doc窗口
 
 " YCM 配置
@@ -390,10 +404,11 @@ let g:signify_update_on_bufenter    = 0
 let g:signify_update_on_focusgained = 0
 
 
-
 augroup run_file
-    autocmd FileType python nnoremap <F5>: copen<cr><C-W><C-K>:AsyncRun -raw python % <cr>
-    autocmd FileType cpp    nnoremap <F5>: copen<cr><C-W><C-K>:AsyncRun gcc % -o %< <CR>:AsyncRun g++ -O3 "%" -o "%<"<CR>
+    autocmd!
+    autocmd FileType python nnoremap <F5> :copen<cr><C-W><C-K>:AsyncRun -raw python % <cr>
+    autocmd FileType python nnoremap <C-c> :AsyncStop!<cr>
+    autocmd FileType cpp    nnoremap <F5> :copen<cr><C-W><C-K>:AsyncRun gcc % -o %< <CR>:AsyncRun g++ -O3 "%" -o "%<"<CR>
 augroup end
 " }}}
 
