@@ -32,8 +32,8 @@ Plug 'Yggdroot/indentLine'                               " 显示缩进线
 Plug 'vim-scripts/indentpython.vim', {'for': 'python'}   " python 自动缩进插件,用于insert过程时自动缩进,需要配置 indent on
 Plug 'vim-syntastic/syntastic'                           " 语法检查框架, 其中包含了常用语言检查工具,少量语言需手动安装插件
 Plug 'Chiel92/vim-autoformat'                            " 代码格式化框架,依赖对应语言格式化插件
-"Plug 'maralla/completor.vim'                             " 代码智能补全框架
-Plug 'Valloric/YouCompleteMe'                          " 代码智能完成
+Plug 'maralla/completor.vim'                             " 代码智能补全框架
+"Plug 'Valloric/YouCompleteMe'                          " 代码智能完成
 Plug 'SirVer/ultisnips'                                  " 模块自动补全插件 如 if--else--, 集成到completor.vim
 Plug 'Weirping/vim-snippets'                             " ultisnips需要用到的各种模板,下载后ultisnips自动识别. 自己fork一份,方便定制, src: honza/vim-snippets
 Plug 'scrooloose/nerdcommenter'                          " 注释
@@ -130,15 +130,23 @@ let g:which_key_map.s = {
             \ 's': 'CharChar',
             \ 'w': 'Word'
             \}
+let g:which_key_map.t = {
+            \ 'name': '+toggle',
+            \ 'n': 'LineNumber',
+            \ 'p': 'PasteMode',
+            \ 'w': 'LineWrap'
+            \}
+
 " }}}
 
 
 " autocmd --------------------------------------- {{{
 augroup run_file
     autocmd!
-    autocmd FileType python nnoremap <F5>  :copen<cr><C-W><C-K>:AsyncRun -raw python % <cr>
+    autocmd FileType python nnoremap <F5>  :w<CR>:copen<cr><C-W><C-K>:AsyncRun -raw python % <cr>
     autocmd FileType python nnoremap <C-c> :AsyncStop!<cr>
-    autocmd FileType cpp    nnoremap <F5>  :copen<cr><C-W><C-K>:AsyncRun gcc % -o %< <CR>:AsyncRun g++ -O3 "%" -o "%<"<CR>
+    autocmd FileType cpp    nnoremap <F9>  :w<CR>:copen<cr><C-W><C-K>:AsyncRun gcc % -o %< <CR>
+    autocmd FileType cpp    nnoremap <F5>  :copen<cr><C-W><C-K>:AsyncRun -raw ./%< <CR>
 augroup end
 
 augroup filetype_vim
@@ -160,6 +168,7 @@ nnoremap <leader>ehe :split ~/.bashrc<cr>
 " toggle => t
 nnoremap <leader>tn :set number!<cr>    " toggle number
 nnoremap <leader>tp :set paste!<cr>
+nnoremap <leader>tw :set wrap!<cr>
 " }}}
 
 
@@ -371,26 +380,26 @@ let g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline
 
 " completer settings ---------------------------- {{{
 "completor 配置
-"let g:completor_min_chars = 1                   " 输入一个字符即开始智能提示
-"let g:completor_doc_position = 'bottom'         " 在窗口底部显示文档
-"let g:completor_auto_close_doc = 0              " 不自动关闭doc窗口
+let g:completor_min_chars = 1                   " 输入一个字符即开始智能提示
+let g:completor_doc_position = 'bottom'         " 在窗口底部显示文档
+let g:completor_auto_close_doc = 0              " 不自动关闭doc窗口
 
 " YCM 配置
-let g:ycm_complete_in_comments=1                " 补全功能在注释中同样有效
-let g:ycm_confirm_extra_conf=0                  " 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
-let g:ycm_collect_identifiers_from_tags_files=1 " 开启 YCM 标签补全引擎
-set tags+=~/.vim/tags/cpp                       " 引入 C++ 标准库tags
-inoremap <leader>; <C-x><C-o>
-set completeopt=longest,menu,preview            " 补全内容不以分割子窗口形式出现，只显示补全列表
-let g:ycm_min_num_of_chars_for_completion=1     " 从第一个键入字符就开始罗列匹配项
-let g:ycm_cache_omnifunc=0                      " 禁止缓存匹配项，每次都重新生成匹配项
-let g:ycm_seed_identifiers_with_syntax=1        " 语法关键字补全
-let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-nnoremap <leader>jd :YcmCompleter GoToDeclaration <CR>
-nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>jt :YcmCompleter GetType<CR>
-nnoremap <leader>jp :YcmCompleter GetParent<CR>
-nnoremap <leader>jk :YcmCompleter GetDoc<CR>
+"let g:ycm_complete_in_comments=1                " 补全功能在注释中同样有效
+"let g:ycm_confirm_extra_conf=0                  " 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
+"let g:ycm_collect_identifiers_from_tags_files=1 " 开启 YCM 标签补全引擎
+"set tags+=~/.vim/tags/cpp                       " 引入 C++ 标准库tags
+"inoremap <leader>; <C-x><C-o>
+"set completeopt=longest,menu,preview            " 补全内容不以分割子窗口形式出现，只显示补全列表
+"let g:ycm_min_num_of_chars_for_completion=1     " 从第一个键入字符就开始罗列匹配项
+"let g:ycm_cache_omnifunc=0                      " 禁止缓存匹配项，每次都重新生成匹配项
+"let g:ycm_seed_identifiers_with_syntax=1        " 语法关键字补全
+"let g:ycm_global_ycm_extra_conf='~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+"nnoremap <leader>jd :YcmCompleter GoToDeclaration <CR>
+"nnoremap <leader>jf :YcmCompleter GoToDefinition<CR>
+"nnoremap <leader>jt :YcmCompleter GetType<CR>
+"nnoremap <leader>jp :YcmCompleter GetParent<CR>
+"nnoremap <leader>jk :YcmCompleter GetDoc<CR>
 
 " supertab
 let g:SuperTabDefaultCompletionType = "<C-N>"   "将tab键映射为completor.vim的自动完成
