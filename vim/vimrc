@@ -147,6 +147,7 @@ augroup run_file
     autocmd FileType python nnoremap <C-c> :AsyncStop!<cr>
     autocmd FileType cpp    nnoremap <F9>  :w<CR>:copen<cr><C-W><C-K>:AsyncRun gcc % -o %< <CR>
     autocmd FileType cpp    nnoremap <F5>  :copen<cr><C-W><C-K>:AsyncRun -raw ./%< <CR>
+    autocmd FileType cpp    nnoremap <C-c> :AsyncStop!<cr>
 augroup end
 
 augroup filetype_vim
