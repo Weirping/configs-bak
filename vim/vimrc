@@ -30,6 +30,7 @@ Plug 'kien/ctrlp.vim'                                    " 超级搜索 按Ctrl+
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}  " C++ 语法高亮配色方案, 需要配置 syntax on
 Plug 'Yggdroot/indentLine'                               " 显示缩进线
 Plug 'vim-scripts/indentpython.vim', {'for': 'python'}   " python 自动缩进插件,用于insert过程时自动缩进,需要配置 indent on
+Plug 'vim-python/python-syntax', {'for': 'python'}       " python syntax highlight
 Plug 'vim-syntastic/syntastic'                           " 语法检查框架, 其中包含了常用语言检查工具,少量语言需手动安装插件
 Plug 'Chiel92/vim-autoformat'                            " 代码格式化框架,依赖对应语言格式化插件
 Plug 'maralla/completor.vim'                             " 代码智能补全框架
@@ -44,13 +45,13 @@ Plug 'ervandew/supertab'                                 " 用tab自动完成,�
 Plug 'dyng/ctrlsf.vim'                                   " 在工程中查找关键词的插件
 Plug 'terryma/vim-multiple-cursors'                      " 光标多选功能
 Plug 'easymotion/vim-easymotion'                         " 快速移动光标
-Plug 'haya14busa/incsearch.vim'                          " 搜索功能增强
 Plug 'tpope/vim-surround'                                " surroud
 Plug 'junegunn/vim-easy-align'                           " align
 Plug 'mhinz/vim-signify'                                 " svn git 修改标记
 Plug 'skywind3000/asyncrun.vim'                          " asyncrun
 Plug 'kshenoy/vim-signature'                             " code bookmark, echo has('signs') = 1
 Plug 'liuchengxu/vim-which-key'                          " key guide
+Plug 'simeji/winresizer'                                 " window resize
 
 " Initialize plugin system
 call plug#end()
@@ -92,6 +93,7 @@ let g:which_key_map = {
             \ '8': 'buffer8',
             \ '9': 'buffer9',
             \ 'a': 'Align',
+            \ 'w': 'window [Resize][Move][Focus]'
             \ }
 let g:which_key_map.b = {
             \ 'name': '+buffer',
@@ -134,27 +136,23 @@ let g:which_key_map.t = {
             \ 'name': '+toggle',
             \ 'n': 'LineNumber',
             \ 'p': 'PasteMode',
+            \ 'h': 'close search highlight',
             \ 'w': 'LineWrap'
             \}
-
 " }}}
 
 
 " autocmd --------------------------------------- {{{
 augroup run_file
     autocmd!
-    autocmd FileType python nnoremap <F5>  :w<CR>:copen<cr><C-W><C-K>:AsyncRun -raw python % <cr>
+    autocmd FileType python nnoremap <F5>  :w<CR>:copen<cr><C-W><C-P>:AsyncRun -raw python % <cr>
     autocmd FileType python nnoremap <C-c> :AsyncStop!<cr>
-    autocmd FileType cpp    nnoremap <F9>  :w<CR>:copen<cr><C-W><C-K>:AsyncRun gcc % -o %< <CR>
-    autocmd FileType cpp    nnoremap <F5>  :copen<cr><C-W><C-K>:AsyncRun -raw ./%< <CR>
+    autocmd FileType cpp    nnoremap <F9>  :w<CR>:copen<cr><C-W><C-P>:AsyncRun gcc -lstdc++ % -o %< <CR>
+    autocmd FileType cpp    nnoremap <F5>  :copen<cr><C-W><C-P>:AsyncRun -raw ./%< <CR>
     autocmd FileType cpp    nnoremap <C-c> :AsyncStop!<cr>
+    autocmd FileType sh     nnoremap <F5>  :w<CR>:copen<cr><C-W><C-P>:AsyncRun sh % <cr>
+    autocmd FileType sh     nnoremap <C-c> :AsyncStop!<cr>
 augroup end
-
-augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
-    autocmd FileType qf  setlocal wrap
-augroup END
 " }}}
 
 
@@ -203,6 +201,10 @@ let g:indentLine_enabled = 1            "显示缩进线
 " folding settings ------------------------------ {{{
 " 代码折叠（Code Folding)
 set foldmethod=indent    " 根据缩进折叠代码
+augroup folding_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
 " set foldmethod=syntax   " 根据语法折叠
 set foldlevel=99
 " nnoremap <space> za     "使用空格键折叠代码
@@ -223,19 +225,28 @@ colorscheme desert
 " 语法高亮 以下两行代码要在靠前的位置，后面所有关于颜色的配置都需要在这两行之后
 syntax enable                   "开启代码高亮功能
 syntax on                       "允许用指定的语法高亮配色方案代替默认方案,如python,cpp文件使用不同的方案
+" >>>
+" python-syntax
 let python_highlight_all=1
 " }}} 
 
 
 " edit scope settings --------------------------- {{{
 set number                 " 显示行号
+augroup line_number_vim
+    autocmd!
+    autocmd FileType qf  setlocal nonumber
+augroup END
 set textwidth=110          " 限制以后文本的长度
 "set relativenumber number " 显示相对行号
 "set cursorline            " 突出显示当前行
 "set cursorcolumn          " 突出显示当前列
 set ruler                  " 总是显示光标当前位置
 set nowrap                 " 禁止折行
-" set wrap                 " 折行
+augroup wrap_vim
+    autocmd!
+    autocmd FileType qf  setlocal wrap
+augroup END
 
 " 标示不必要的空白字符
 highlight BadWhitespace ctermbg=239 guibg=darkred
@@ -301,19 +312,12 @@ let g:airline#extensions#syntastic#enabled = 1
 set incsearch                       "在搜索时，逐字符高亮. Highlight while searching with / or ?.
 set ignorecase                      "ignore case 搜索时忽略大小写
 set hlsearch                        "hlsearch 高亮显示搜索结果
+" 关闭搜索高亮
+nnoremap <leader>th :nohlsearch<CR>  
 " 修改Search结果的高亮配色方案
 " hi Search ctermfg=230 ctermbg=33 guifg=#fdf6e3 guibg=#268bd2
 
 " >>>>>
-" incsearch
-let g:incsearch#auto_nohlsearch = 1     "完成搜索时自动取消高亮
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
-
 " easymotion
 let g:EasyMotion_do_mapping = 0         "关闭默认keymapping, 只使用自定义的
 " <Leader>sf{char} to move to {char}
@@ -347,11 +351,8 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-" 窗口大小调整
-nmap z- :resize -5<CR>
-nmap z= :resize +5<CR>
-nmap z, :vertical resize -5<CR>
-nmap z. :vertical resize +5<CR>
+" winresizer
+let g:winresizer_start_key = '<leader>w'
 " }}}
 
 
