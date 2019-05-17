@@ -1,4 +1,5 @@
-cd Download
+mkdir LLVM_TMP
+cd LLVM_TMP
 if test -e llvm-3.9.1.src.tar.xz
 then
    echo 'llvm-3.9.1.src.tar.xz exist' 
@@ -52,7 +53,7 @@ fi
 mkdir llvm-build
 cd llvm-build
 pwd
-CC="/opt/rh/devtoolset-3/root/usr/bin/gcc" CXX="/opt/rh/devtoolset-3/root/usr/bin/g++" cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/zhangweiping/opt/llvm -DLLVM_OPTIMIZED_TABLEGEN=1 ../llvm
+CC="/opt/rh/devtoolset-3/root/usr/bin/gcc" CXX="/opt/rh/devtoolset-3/root/usr/bin/g++" cmake -G "UnixMakefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${HOME}/opt/llvm -DLLVM_OPTIMIZED_TABLEGEN=1 ../llvm
 make -j8
 make install
 
@@ -60,5 +61,5 @@ make install
 #cd ~
 #mkdir ycm_build
 #cd ycm_build
-#CC="/opt/rh/devtoolset-3/root/usr/bin/gcc" CXX="/opt/rh/devtoolset-3/root/usr/bin/g++" cmake -G "Unix Makefiles" -DPATH_TO_LLVM_ROOT=/home/zhangweiping/opt/llvm . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
+#CC="/opt/rh/devtoolset-3/root/usr/bin/gcc" CXX="/opt/rh/devtoolset-3/root/usr/bin/g++" cmake -G "UnixMakefiles" -DPATH_TO_LLVM_ROOT=${HOME}/opt/llvm . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp
 #cmake --build . --target ycm_core
