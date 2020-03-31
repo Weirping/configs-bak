@@ -343,6 +343,9 @@ set showcmd                         " 输入的命令显示出来，看的清楚
 
 
 " window start ---------------------------------- {{{
+" 关闭窗口左侧 signcolumn
+"set signcolumn=no
+
 " 窗口分割位置
 set splitbelow
 set splitright
